@@ -1,9 +1,7 @@
 import "./App.css";
 import { useSettings } from "./hooks/useSettings.ts";
 import { Difficulty } from "./data/difficulty.ts";
-import React, { useState } from "react";
-import { CardText } from "./components/CardText.tsx";
-import { Hr } from "./components/Hr.tsx";
+import { useState } from "react";
 import { MonsterCard } from "./components/MonsterCard.tsx";
 
 const Page = {

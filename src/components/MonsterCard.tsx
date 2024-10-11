@@ -37,7 +37,10 @@ export const MonsterCard = ({ monster }: Props) => {
 
   return (
     <div className="card">
-      <h5 className="card-header">{name}</h5>
+      <div className="card-header d-flex">
+        <h5 className="card-title mb-0">{name}</h5>
+        <span className="ms-auto">10体</span>
+      </div>
       <div className="card-body py-2">
         <p className="card-text my-0">
           {size}・{monsterType}、中立にして悪
@@ -60,12 +63,6 @@ export const MonsterCard = ({ monster }: Props) => {
               value={abilities[ability as Ability]}
             />
           ))}
-          {/*<AbilityCol label={Ability.STR} value={abilities[Ability.STR]} />*/}
-          {/*<AbilityCol label={Ability.DEX} value={abilities[Ability.DEX]} />*/}
-          {/*<AbilityCol label={Ability.CON} value={abilities[Ability.CON]} />*/}
-          {/*<AbilityCol label={Ability.INT} value={abilities[Ability.INT]} />*/}
-          {/*<AbilityCol label={Ability.WIS} value={abilities[Ability.WIS]} />*/}
-          {/*<AbilityCol label={Ability.CHA} value={abilities[Ability.CHA]} />*/}
         </div>
         <hr className="my-1" />
         {Object.entries(feats).map(([label, text]) => (

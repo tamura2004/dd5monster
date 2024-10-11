@@ -1,7 +1,7 @@
 import { Monster } from "../models/Monster.ts";
 import { Ability } from "../models/Ability.ts";
 
-const monsterModifiers: Record<string, (monster: Monster) => Monster> = {
+export const monsterModifiers: Record<string, (monster: Monster) => Monster> = {
   "STR+": (monster) => {
     const str = monster.abilities[Ability.STR];
     return {
