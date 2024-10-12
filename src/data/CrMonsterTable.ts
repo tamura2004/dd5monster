@@ -11,7 +11,7 @@ type CrMonster = {
   save: number;
 };
 
-export const crMonsters: Record<CR, CrMonster> = {
+export const CrMonsterTable: Record<CR, CrMonster> = {
   "1/8": {
     baseBonus: 2,
     ac: 13,
@@ -342,4 +342,4 @@ export const crMonsters: Record<CR, CrMonster> = {
     damageMax: 320,
     save: 19,
   },
-};
+} as const;

@@ -12,7 +12,9 @@ const AbilityCol = ({ label, value }: { label: Ability; value: number }) => {
   const modifyStr = modify >= 0 ? `+${modify}` : modify.toString();
   return (
     <div className="col px-0">
-      <p className="my-0"><b>{label}</b></p>
+      <p className="my-0">
+        <b>{label}</b>
+      </p>
       <p className="my-0">
         {value}({modifyStr})
       </p>
@@ -23,6 +25,7 @@ const AbilityCol = ({ label, value }: { label: Ability; value: number }) => {
 export const MonsterCard = ({ monster }: Props) => {
   const {
     name,
+    num,
     size,
     monsterType,
     ac,
@@ -31,15 +34,18 @@ export const MonsterCard = ({ monster }: Props) => {
     cr,
     exp,
     abilities,
-    feats,
     actions,
+    skills,
+    senses,
+    languages,
+    specialAbilities,
   } = monster;
 
   return (
     <div className="card">
       <div className="card-header d-flex">
         <h5 className="card-title mb-0">{name}</h5>
-        <span className="ms-auto">10体</span>
+        <span className="ms-auto">{num}体</span>
       </div>
       <div className="card-body py-2">
         <p className="card-text my-0">
@@ -48,11 +54,20 @@ export const MonsterCard = ({ monster }: Props) => {
         <Hr />
         <CardText label="AC" text={ac} />
         <CardText label="hp" text={hp} />
-        <CardText label="移動速度" text={move} />
+        <CardText label="移動速度" text={move.join("、")} />
         <Hr />
-        <CardText label="技能" text="運動+6、生存+3、知覚+3" />
-        <CardText label="感覚" text="運動+6、生存+3、知覚+3" />
-        <CardText label="言語" text="運動+6、生存+3、知覚+3" />
+        {Object.keys(skills).length > 0 && (
+          <CardText
+            label="技能"
+            text={Object.entries(skills)
+              .map(([skill, value]) => `${skill}+${value}`)
+              .join("、")}
+          />
+        )}
+        <CardText label="感覚" text={senses.join("、")} />
+        {Object.keys(languages).length > 0 && (
+          <CardText label="言語" text={languages.join("、")} />
+        )}
         <CardText label="脅威度" text={`${cr}(${exp}exp)`} />
         <Hr />
         <div className="row text-center">
@@ -65,12 +80,12 @@ export const MonsterCard = ({ monster }: Props) => {
           ))}
         </div>
         <hr className="my-1" />
-        {Object.entries(feats).map(([label, text]) => (
+        <h6 className="card-title mt-2">アクション</h6>
+        {actions.map(({ label, text }) => (
           <CardText key={label} label={label} text={text} />
         ))}
         <hr className="my-1" />
-        <h6 className="card-title mt-2">アクション</h6>
-        {Object.entries(actions).map(([label, text]) => (
+        {specialAbilities.map(({ label, text }) => (
           <CardText key={label} label={label} text={text} />
         ))}
       </div>

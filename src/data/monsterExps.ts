@@ -1,6 +1,6 @@
 import { CR } from "../models/CR.ts";
 
-export const monsterExps: Record<CR, number> = {
+export const MonsterExps: Record<CR, number> = {
   "1/8": 25,
   "1/4": 50,
   "1/2": 100,
@@ -34,4 +34,4 @@ export const monsterExps: Record<CR, number> = {
   "28": 120000,
   "29": 135000,
   "30": 155000,
-};
+} as const;

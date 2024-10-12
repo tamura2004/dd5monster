@@ -1,8 +1,10 @@
 import "./App.css";
 import { useSettings } from "./hooks/useSettings.ts";
-import { Difficulty } from "./data/difficulty.ts";
 import { useState } from "react";
 import { MonsterCard } from "./components/MonsterCard.tsx";
+import { initialSettings } from "./models/Settings.ts";
+import { useMonster } from "./hooks/useMonster.ts";
+import { SettingsForm } from "./components/SettingsForm.tsx";
 
 const Page = {
   Setting: "Setting",
@@ -11,16 +13,11 @@ const Page = {
 type Page = (typeof Page)[keyof typeof Page];
 
 function App() {
-  const {
-    level,
-    setLevel,
-    numCharacters,
-    setNumCharacters,
-    difficulty,
-    setDifficulty,
-    setSeed,
-    monster,
-  } = useSettings();
+  const { settings, setLevel, setNumCharacters, setDifficulty, totalExp } =
+    useSettings(initialSettings);
+
+  const { monster, setSeed } = useMonster(totalExp);
+
   const [page, setPage] = useState<Page>(Page.Setting);
 
   return (
@@ -43,49 +40,12 @@ function App() {
       </nav>
       <div className="container">
         {page === Page.Setting && (
-          <>
-            <h3>設定</h3>
-            <select
-              value={level}
-              className="form-select form-select-lg mb-3"
-              onChange={(e) => setLevel(parseInt(e.target.value))}
-            >
-              <option value="">レベルを選択してください</option>
-              {[...Array(20).keys()].map((i) => (
-                <option key={i} value={i + 1}>
-                  キャラクターレベル {i + 1}
-                </option>
-              ))}
-              {[...Array(20).keys()].map((i) => (
-                <option key={i} value={i + 1}>
-                  キャラクターレベル {i + 1}
-                </option>
-              ))}
-            </select>
-            <select
-              value={numCharacters}
-              className="form-select form-select-lg mb-3"
-              onChange={(e) => setNumCharacters(parseInt(e.target.value))}
-            >
-              <option value="">人数を選択してください</option>
-              {[...Array(6).keys()].map((i) => (
-                <option key={i} value={i + 1}>
-                  人数 {i + 1}
-                </option>
-              ))}
-            </select>
-            <select
-              value={difficulty}
-              className="form-select form-select-lg mb-3"
-              onChange={(e) => setDifficulty(e.target.value as Difficulty)}
-            >
-              <option value="">難易度を選択してください</option>
-              <option value={Difficulty.EASY}>簡単</option>
-              <option value={Difficulty.NORMAL}>通常</option>
-              <option value={Difficulty.HARD}>困難</option>
-              <option value={Difficulty.HELL}>死地</option>
-            </select>
-          </>
+          <SettingsForm
+            settings={settings}
+            setLevel={setLevel}
+            setNumCharacters={setNumCharacters}
+            setDifficulty={setDifficulty}
+          />
         )}
         {page === Page.Encounter && <MonsterCard monster={monster} />}
       </div>

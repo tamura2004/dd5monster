@@ -1,13 +1,13 @@
-import { Difficulty } from "../data/difficulty.ts";
+import { Difficulty } from "../data/Difficulty.ts";
 
 export type Settings = {
-  level: number | null;
-  numCharacters: number | null;
-  difficulty: Difficulty | null;
+  level: number;
+  numCharacters: number;
+  difficulty: Difficulty;
 };
 
 export const initialSettings: Settings = {
-  level: null,
-  numCharacters: null,
-  difficulty: null,
+  level: 4,
+  numCharacters: 4,
+  difficulty: Difficulty.NORMAL,
 };

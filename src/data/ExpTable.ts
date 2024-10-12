@@ -1,6 +1,6 @@
-import { Difficulty } from "./difficulty.ts";
+import { Difficulty } from "./Difficulty.ts";
 
-export const baseExp = {
+export const ExpTable = {
   [Difficulty.EASY]: [
     25, 50, 75, 125, 250, 300, 350, 450, 550, 600, 800, 1000, 1100, 1250, 1400,
     1600, 2000, 2100, 2400, 2800,
@@ -17,4 +17,4 @@ export const baseExp = {
     100, 200, 400, 500, 1100, 1400, 1700, 2100, 2400, 2800, 3600, 4500, 5100,
     5700, 6400, 7200, 8800, 9500, 10900, 12700,
   ],
-};
+} as const;
