@@ -13,6 +13,7 @@ export const Rarity = {
 export type Rarity = (typeof Rarity)[keyof typeof Rarity];
 
 export const TemplateType = {
+  TYPE: "type",
   TERRAIN: "terrain",
   RACE: "race",
   CLASS: "class",
@@ -22,41 +23,215 @@ export type TemplateType = (typeof TemplateType)[keyof typeof TemplateType];
 
 export type MonsterTemplate = {
   name: string;
-  type: TemplateType;
+  templateType: TemplateType;
+  monsterType?: MonsterType
   rarity: Rarity;
   enhancer: MonsterEnhancer;
 };
-
+// export const MonsterType = {
+//   ABERRATION: "異形",
+//   BEAST: "野獣",
+//   CELESTIAL: "天使",
+//   CONSTRUCT: "人造",
+//   DRAGON: "ドラゴン",
+//   ELEMENTAL: "エレメンタル",
+//   FEY: "妖精",
+//   FIEND: "悪魔",
+//   GIANT: "巨人",
+//   HUMANOID: "人型",
+//   MONSTROSITY: "怪物",
+//   OOZE: "粘体",
+//   PLANT: "植物",
+//   UNDEAD: "アンデッド",
+// } as const;
 export type MonsterEnhancer = (monster: Monster) => Monster;
+
+export const enhanceSpecialAbilities = (label: string, text: string) => (monster: Monster) => {
+  return {
+    ...monster,
+    specialAbilities: [
+      ...monster.specialAbilities,
+      { label, text },
+    ],
+  };
+}
 
 export const MonsterTemplates: MonsterTemplate[] = [
   {
-    name: "ゴブリン",
-    type: TemplateType.RACE,
+    name: "アンデッド",
+    templateType: TemplateType.TYPE,
+    monsterType: MonsterType.UNDEAD,
     rarity: Rarity.COMMON,
     enhancer: (monster) => {
-      const { skills, senses, languages, specialAbilities } = monster;
+      const { senses, specialAbilities } = monster;
       return {
         ...monster,
-        size: MonsterSize.SMALL,
-        monsterType: MonsterType.HUMANOID,
+        size: MonsterSize.MEDIUM,
+        monsterType: MonsterType.UNDEAD,
         move: ["30ft"],
-        skills: { ...skills, [Skill.STEALTH]: 6 },
         senses: [...senses, "暗視60フィート", "受動〈知覚〉9"],
-        languages: [...languages, "ゴブリン語"],
         specialAbilities: [
           ...specialAbilities,
           {
-            label: "素早い脱出",
-            text: "自分のターンごとにボーナス・アクションとして離脱アクションまたは隠れ身アクションを行なえる。",
+            label: "不死特性",
+            text: "毒ダメージを受けず、[消耗]状態、[毒]状態、[魅了]状態、[恐怖]状態にならない。",
           },
         ],
       };
     },
   },
   {
+    name: "人型",
+    templateType: TemplateType.TYPE,
+    monsterType: MonsterType.HUMANOID,
+    rarity: Rarity.COMMON,
+    enhancer: (monster) => {
+      const { skills, senses, languages } = monster;
+      return {
+        ...monster,
+        size: MonsterSize.MEDIUM,
+        monsterType: MonsterType.HUMANOID,
+        move: ["30ft"],
+        skills: { ...skills, [Skill.PERCEPTION]: monster.baseBonus },
+        senses: [...senses, `受動〈知覚〉${10 + monster.baseBonus}`],
+        languages: [...languages, "共通語"],
+      };
+    },
+  },
+  {
+    name: "グール",
+    rarity: Rarity.COMMON,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.UNDEAD,
+    enhancer: enhanceSpecialAbilities("麻痺の爪","攻撃がヒットしたならば難易度${monster.save}の耐久力セーヴに失敗すると1分間麻痺状態になる。対象は自分のターンの終了時に再度セーヴを行い、成功すればこの効果は終了する"),
+  },
+  {
+    name: "スケルトン",
+    rarity: Rarity.COMMON,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.UNDEAD,
+    enhancer: enhanceSpecialAbilities("ダメージ脆弱性", "[殴打]"),
+  },
+  {
+    name: "ゾンビ",
+    rarity: Rarity.COMMON,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.UNDEAD,
+    enhancer: enhanceSpecialAbilities("不死", "[光輝]ダメージ以外でヒットポイントが0になった場合、難易度（受けたダメージ+5）の耐久力セーヴに成功すれば1ヒット・ポイント残る。"),
+  },
+  {
+    name: "バンシー",
+    rarity: Rarity.RARE,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.UNDEAD,
+    enhancer: (monster) => {
+      return {
+        ...monster,
+        move: [...monster.move, "飛行40ft"],
+        specialAbilities: [
+          ...monster.specialAbilities,
+          {
+            label: "慟哭(1回/日)",
+            text: `30ft以内のアンデッドでないクリーチャーは難易度${monster.save}の【耐久力】セーヴに失敗するとhpが0になる。成功すると${monster.diceNum}d6+${monster.damageMod}の[精神]ダメージを受ける。`,
+          }
+        ],
+      }
+    }
+  },
+  {
+    name: "ゴブリン",
+    rarity: Rarity.COMMON,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.HUMANOID,
+    enhancer: enhanceSpecialAbilities("素早い脱出", "自分のターンごとにボーナス・アクションとして離脱アクションまたは隠れ身アクションを行なえる"),
+  },
+  {
+    name: "オーク",
+    rarity: Rarity.COMMON,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.HUMANOID,
+    enhancer: enhanceSpecialAbilities("猛進", "ボーナスアクションとして敵対的なクリーチャーに近づくように移動ができる"),
+  },
+  {
+    name: "コボルド",
+    rarity: Rarity.COMMON,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.HUMANOID,
+    enhancer: enhanceSpecialAbilities("連携戦闘", "敵の隣に味方がいるなら、攻撃ロールに有利を得る"),
+  },
+  {
+    name: "ノール",
+    rarity: Rarity.UNCOMMON,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.HUMANOID,
+    enhancer: enhanceSpecialAbilities("大暴れ", "近接攻撃で敵のhpを0にしたならば、ボーナスアクションとして追加攻撃ができる"),
+  },
+  {
+    name: "ホブゴブリン",
+    rarity: Rarity.UNCOMMON,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.HUMANOID,
+    enhancer: enhanceSpecialAbilities("連携打撃", "敵の隣に味方がいるなら、武器攻撃は追加で2d6ダメージを与える"),
+  },
+  {
+    name: "バグベア",
+    rarity: Rarity.UNCOMMON,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.HUMANOID,
+    enhancer: enhanceSpecialAbilities("蛮力", "近接攻撃のダメージダイスが一つ増える"),
+  },
+  {
+    name: "マーフォーク",
+    rarity: Rarity.UNCOMMON,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.HUMANOID,
+    enhancer: (monster) => {
+      return {
+        ...monster,
+        move: [...monster.move, "水泳40ft"],
+        specialAbilities: [...monster.specialAbilities, {
+          label: "水陸両性",
+          text: "空気を呼吸することも水を呼吸することもできる",
+        }],
+      }
+    }
+  },
+  {
+    name: "リザードフォーク",
+    rarity: Rarity.UNCOMMON,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.HUMANOID,
+    enhancer: (monster) => {
+      return {
+        ...monster,
+        ac: monster.ac + 2, // 外皮+2
+        move: [...monster.move, "水泳30ft"],
+        specialAbilities: [...monster.specialAbilities, {
+          label: "息こらえ",
+          text: "最大１０分まで息を止めることができる",
+        }],
+      }
+    }
+  },
+  {
+    name: "ワーウルフ",
+    rarity: Rarity.RARE,
+    templateType: TemplateType.RACE,
+    monsterType: MonsterType.HUMANOID,
+    enhancer: (monster) => {
+      return {
+        ...monster,
+        move: ["40ft"],
+        specialAbilities: [...monster.specialAbilities, {
+          label: "ダメージ完全耐性",
+          text: "魔法でも銀でもない武器による[刺突][斬撃][殴打]からダメージを受けない",
+        }],
+      }
+    }
+  },
+  {
     name: "トロール",
-    type: TemplateType.RACE,
+    templateType: TemplateType.RACE,
     rarity: Rarity.UNCOMMON,
     enhancer: (monster) => {
       const { skills, senses, languages, specialAbilities, save } = monster;
@@ -80,7 +255,7 @@ export const MonsterTemplates: MonsterTemplate[] = [
   },
   {
     name: "ハーピー",
-    type: TemplateType.RACE,
+    templateType: TemplateType.RACE,
     rarity: Rarity.UNCOMMON,
     enhancer: (monster) => {
       const { senses, languages, specialAbilities, save } = monster;
@@ -103,7 +278,7 @@ export const MonsterTemplates: MonsterTemplate[] = [
   },
   {
     name: "ゾンビ",
-    type: TemplateType.RACE,
+    templateType: TemplateType.RACE,
     rarity: Rarity.COMMON,
     enhancer: (monster) => {
       const { senses, specialAbilities } = monster;
@@ -129,7 +304,7 @@ export const MonsterTemplates: MonsterTemplate[] = [
   },
   {
     name: "メデューサ",
-    type: TemplateType.RACE,
+    templateType: TemplateType.RACE,
     rarity: Rarity.UNCOMMON,
     enhancer: (monster) => {
       const { senses, skills, specialAbilities, languages, save } = monster;
@@ -160,7 +335,7 @@ export const MonsterTemplates: MonsterTemplate[] = [
   },
   {
     name: "ソルジャー",
-    type: TemplateType.CLASS,
+    templateType: TemplateType.CLASS,
     rarity: Rarity.COMMON,
     enhancer: (monster) => {
       const { actions, toHit, damage, diceNum, damageMod, specialAbilities } =
@@ -177,7 +352,7 @@ export const MonsterTemplates: MonsterTemplate[] = [
         specialAbilities: [
           ...specialAbilities,
           {
-            label: "連携先頭",
+            label: "連携戦闘",
             text: "敵に隣接して味方がいるなら攻撃ロールに有利を得る。",
           },
         ],
@@ -186,7 +361,7 @@ export const MonsterTemplates: MonsterTemplate[] = [
   },
   {
     name: "プリースト",
-    type: TemplateType.CLASS,
+    templateType: TemplateType.CLASS,
     rarity: Rarity.COMMON,
     enhancer: (monster) => {
       const { actions, toHit, damage, diceNum, damageMod, specialAbilities } =
@@ -212,7 +387,7 @@ export const MonsterTemplates: MonsterTemplate[] = [
   },
   {
     name: "アーチャー",
-    type: TemplateType.CLASS,
+    templateType: TemplateType.CLASS,
     rarity: Rarity.COMMON,
     enhancer: (monster) => {
       const { actions, toHit, damage, diceNum, damageMod, specialAbilities } =
@@ -238,7 +413,7 @@ export const MonsterTemplates: MonsterTemplate[] = [
   },
   {
     name: "メイジ",
-    type: TemplateType.CLASS,
+    templateType: TemplateType.CLASS,
     rarity: Rarity.COMMON,
     enhancer: (monster) => {
       const { actions, toHit, specialAbilities } = monster;

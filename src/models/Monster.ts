@@ -29,4 +29,5 @@ export type Monster = {
   damage: number;
   diceNum: number;
   damageMod: number;
+  baseBonus: number;
 };

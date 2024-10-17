@@ -1,43 +1,30 @@
-import "./App.css";
 import { useSettings } from "./hooks/useSettings.ts";
-import { useState } from "react";
 import { MonsterCard } from "./components/MonsterCard.tsx";
 import { initialSettings } from "./models/Settings.ts";
 import { useMonster } from "./hooks/useMonster.ts";
 import { SettingsForm } from "./components/SettingsForm.tsx";
+import { Board } from "./components/Board.tsx";
+import { useState } from "react";
+import {NavBar} from "./components/NavBar.tsx";
 
-const Page = {
+export const Page = {
   Setting: "Setting",
-  Encounter: "Encounter",
+  Monster: "Monster",
+  Room: "Room",
 } as const;
-type Page = (typeof Page)[keyof typeof Page];
+export type Page = (typeof Page)[keyof typeof Page];
 
 function App() {
   const { settings, setLevel, setNumCharacters, setDifficulty, totalExp } =
     useSettings(initialSettings);
 
   const { monster, setSeed } = useMonster(totalExp);
-
   const [page, setPage] = useState<Page>(Page.Setting);
+  const roll = () => setSeed(Math.random());
 
   return (
     <>
-      <nav className="navbar navbar-dark bg-dark mb-3">
-        <div className="container-fluid">
-          <a className="navbar-brand" onClick={() => setPage(Page.Setting)}>
-            D&D5e ランダム遭遇表
-          </a>
-          <button
-            className={"btn btn-outline-light"}
-            onClick={() => {
-              setPage(Page.Encounter);
-              setSeed(Math.random());
-            }}
-          >
-            遭遇
-          </button>
-        </div>
-      </nav>
+      <NavBar page={page} setPage={setPage} />
       <div className="container">
         {page === Page.Setting && (
           <SettingsForm
@@ -45,9 +32,12 @@ function App() {
             setLevel={setLevel}
             setNumCharacters={setNumCharacters}
             setDifficulty={setDifficulty}
+            setPage={setPage}
+            roll={roll}
           />
         )}
-        {page === Page.Encounter && <MonsterCard monster={monster} />}
+        {page === Page.Monster && <MonsterCard monster={monster} roll={roll} />}
+        {page === Page.Room && <Board />}
       </div>
     </>
   );

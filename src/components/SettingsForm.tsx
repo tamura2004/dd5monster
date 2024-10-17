@@ -1,11 +1,14 @@
 import { Settings } from "../models/Settings.ts";
 import { Difficulty } from "../data/Difficulty.ts";
+import { Page } from "../App.tsx";
 
 type Props = {
   settings: Settings;
   setLevel: (level: number) => void;
   setNumCharacters: (numCharacters: number) => void;
   setDifficulty: (difficulty: Difficulty) => void;
+  setPage: (page: Page) => void;
+  roll: () => void;
 };
 
 export const SettingsForm = ({
@@ -13,6 +16,8 @@ export const SettingsForm = ({
   setLevel,
   setNumCharacters,
   setDifficulty,
+  setPage,
+  roll,
 }: Props) => {
   const { level, numCharacters, difficulty } = settings;
   return (
@@ -58,6 +63,16 @@ export const SettingsForm = ({
         <option value={Difficulty.HARD}>困難</option>
         <option value={Difficulty.HELL}>死地</option>
       </select>
+      <button
+        type="submit"
+        className="btn btn-lg btn-secondary"
+        onClick={() => {
+          setPage(Page.Monster);
+          roll();
+        }}
+      >
+        モンスターを生成
+      </button>
     </>
   );
 };

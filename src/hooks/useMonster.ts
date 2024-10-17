@@ -6,7 +6,6 @@ import { CrMonsterTable } from "../data/CrMonsterTable.ts";
 import { MonsterSize } from "../models/MonsterSize.ts";
 import { MonsterType } from "../models/MonsterType.ts";
 import { Ability } from "../models/Ability.ts";
-import { dice } from "../tools/DiceUtil.ts";
 import { Monster } from "../models/Monster.ts";
 import { MonsterTemplates, TemplateType } from "../data/MonsterTemplates.ts";
 
@@ -27,20 +26,33 @@ export const useMonster = (totalExp: number) => {
     [seed],
   );
 
-  const monsterRace = useMemo(
+  const monsterType = useMemo(
     () =>
       sample(
         MonsterTemplates.filter(
-          (template) => template.type === TemplateType.RACE,
+          (template) => template.templateType === TemplateType.TYPE,
         ),
       ),
     [seed],
   );
+
+  const monsterRace = useMemo(
+    () =>
+      sample(
+        MonsterTemplates.filter(
+          (template) =>
+            template.templateType === TemplateType.RACE &&
+            template.monsterType === monsterType.monsterType,
+        ),
+      ),
+    [seed],
+  );
+
   const monsterClass = useMemo(
     () =>
       sample(
         MonsterTemplates.filter(
-          (template) => template.type === TemplateType.CLASS,
+          (template) => template.templateType === TemplateType.CLASS,
         ),
       ),
     [seed],
@@ -56,8 +68,8 @@ export const useMonster = (totalExp: number) => {
   const baseMonster: Monster = {
     name: monsterRace.name + monsterClass.name,
     num,
-    size: sample(Object.values(MonsterSize)),
-    monsterType: sample(Object.values(MonsterType)),
+    size: MonsterSize.MEDIUM,
+    monsterType: MonsterType.HUMANOID,
     ac,
     hp,
     save,
@@ -65,12 +77,12 @@ export const useMonster = (totalExp: number) => {
     cr,
     exp,
     abilities: {
-      [Ability.STR]: dice(3, 6) + baseBonus,
-      [Ability.DEX]: dice(3, 6) + baseBonus,
-      [Ability.CON]: dice(3, 6) + baseBonus,
-      [Ability.INT]: dice(3, 6) + baseBonus,
-      [Ability.WIS]: dice(3, 6) + baseBonus,
-      [Ability.CHA]: dice(3, 6) + baseBonus,
+      [Ability.STR]: 8 + baseBonus,
+      [Ability.DEX]: 8 + baseBonus,
+      [Ability.CON]: 8 + baseBonus,
+      [Ability.INT]: 8 + baseBonus,
+      [Ability.WIS]: 8 + baseBonus,
+      [Ability.CHA]: 8 + baseBonus,
     },
     skills: {},
     senses: [],
@@ -81,10 +93,12 @@ export const useMonster = (totalExp: number) => {
     damage,
     diceNum,
     damageMod,
+    baseBonus,
   };
 
-  const monster = monsterRace.enhancer(monsterClass.enhancer(baseMonster));
-
+  const monster = monsterType.enhancer(
+    monsterRace.enhancer(monsterClass.enhancer(baseMonster)),
+  );
   return {
     monster,
     setSeed,
