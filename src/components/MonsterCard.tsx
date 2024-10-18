@@ -5,7 +5,6 @@ import { Ability } from "../models/Ability.ts";
 
 type Props = {
   monster: Monster;
-  roll: () => void;
 };
 
 const AbilityCol = ({ label, value }: { label: Ability; value: number }) => {
@@ -23,7 +22,7 @@ const AbilityCol = ({ label, value }: { label: Ability; value: number }) => {
   );
 };
 
-export const MonsterCard = ({ monster, roll }: Props) => {
+export const MonsterCard = ({ monster }: Props) => {
   const {
     name,
     num,
@@ -45,7 +44,6 @@ export const MonsterCard = ({ monster, roll }: Props) => {
   return (
     <div className="card">
       <div className="card-header d-flex">
-        <i className="bi bi-arrow-clockwise" />
         <h5 className="card-title mb-0">{name}</h5>
         <span className="ms-auto">{num}体</span>
       </div>
@@ -90,8 +88,6 @@ export const MonsterCard = ({ monster, roll }: Props) => {
         {specialAbilities.map(({ label, text }) => (
           <CardText key={label} label={label} text={text} />
         ))}
-        <Hr />
-        <button className="btn btn-sm btn-secondary mt-2" onClick={roll}>再生成</button>
       </div>
     </div>
   );

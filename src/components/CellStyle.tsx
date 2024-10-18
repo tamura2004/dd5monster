@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { CellBorderSize, CellSize } from "../settings.ts";
+import {CellBorderSize, CellOffset, CellSize} from "../settings.ts";
 
 type Props = {
   x: number;
@@ -10,8 +10,8 @@ type Props = {
 export const CellStyle = styled.div.attrs<Props>(
   ({ x, y, $backgroundColor }) => ({
     style: {
-      left: `${x * (CellSize - CellBorderSize)}px`,
-      top: `${y * (CellSize - CellBorderSize)}px`,
+      left: `${x * (CellOffset)}px`,
+      top: `${y * (CellOffset)}px`,
       backgroundColor: $backgroundColor,
     },
   }),

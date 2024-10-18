@@ -1,15 +1,16 @@
-import { Page } from "../App.tsx";
+import { Page } from "../hooks/usePage.ts";
 
 type Props = {
   page: Page;
   setPage: (page: Page) => void;
+  reRoll: () => void;
 };
 
-export const NavBar = ({ page, setPage }: Props) => {
+export const NavBar = ({ page, setPage, reRoll }: Props) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
       <div className="container-fluid">
-        <a className="navbar-brand" onClick={() => setPage(Page.Setting)}>
+        <a className="navbar-brand" onClick={reRoll}>
           DD5eTool
         </a>
         <button
@@ -54,6 +55,9 @@ export const NavBar = ({ page, setPage }: Props) => {
               </a>
             </li>
           </ul>
+          <button className="btn btn-secondary" onClick={reRoll}>
+            <i className="bi bi-dice-5-fill">ダイスを振る</i>
+          </button>
         </div>
       </div>
     </nav>

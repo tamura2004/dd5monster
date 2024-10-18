@@ -4,27 +4,20 @@ import { initialSettings } from "./models/Settings.ts";
 import { useMonster } from "./hooks/useMonster.ts";
 import { SettingsForm } from "./components/SettingsForm.tsx";
 import { Board } from "./components/Board.tsx";
-import { useState } from "react";
-import {NavBar} from "./components/NavBar.tsx";
-
-export const Page = {
-  Setting: "Setting",
-  Monster: "Monster",
-  Room: "Room",
-} as const;
-export type Page = (typeof Page)[keyof typeof Page];
+import { NavBar } from "./components/NavBar.tsx";
+import { useUnits } from "./hooks/useUnits.ts";
+import { Page, usePage } from "./hooks/usePage.ts";
 
 function App() {
   const { settings, setLevel, setNumCharacters, setDifficulty, totalExp } =
     useSettings(initialSettings);
-
-  const { monster, setSeed } = useMonster(totalExp);
-  const [page, setPage] = useState<Page>(Page.Setting);
-  const roll = () => setSeed(Math.random());
+  const { monster, reRollMonster } = useMonster(totalExp);
+  const { units, move } = useUnits();
+  const { page, setPage, reRoll } = usePage(reRollMonster, move);
 
   return (
     <>
-      <NavBar page={page} setPage={setPage} />
+      <NavBar page={page} setPage={setPage} reRoll={reRoll} />
       <div className="container">
         {page === Page.Setting && (
           <SettingsForm
@@ -32,12 +25,10 @@ function App() {
             setLevel={setLevel}
             setNumCharacters={setNumCharacters}
             setDifficulty={setDifficulty}
-            setPage={setPage}
-            roll={roll}
           />
         )}
-        {page === Page.Monster && <MonsterCard monster={monster} roll={roll} />}
-        {page === Page.Room && <Board />}
+        {page === Page.Monster && <MonsterCard monster={monster} />}
+        {page === Page.Room && <Board units={units} move={move} />}
       </div>
     </>
   );

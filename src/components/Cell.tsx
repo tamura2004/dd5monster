@@ -1,5 +1,5 @@
 import { useDroppable } from "@dnd-kit/core";
-import {CellStyle} from "./CellStyle.tsx";
+import { CellStyle } from "./CellStyle.tsx";
 
 type Props = {
   x: number;

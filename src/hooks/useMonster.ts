@@ -99,8 +99,13 @@ export const useMonster = (totalExp: number) => {
   const monster = monsterType.enhancer(
     monsterRace.enhancer(monsterClass.enhancer(baseMonster)),
   );
+
+  const reRollMonster = () => {
+    setSeed(Math.random());
+  }
+
   return {
     monster,
-    setSeed,
+    reRollMonster,
   };
 };

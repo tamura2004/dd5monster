@@ -42,12 +42,14 @@ const PieceStyle = styled.div<{ $x: number; $y: number }>`
     props.$y * (CellSize - CellBorderSize) +
     (CellSize - CellBorderSize - PieceSize) / 2}px;
   cursor: grab;
-  text-align: center;
   color: white;
-  line-height: ${PieceSize}px;
   width: ${PieceSize}px;
   height: ${PieceSize}px;
   background: dodgerblue;
   border: ${PieceBorderSize}px solid darkblue;
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
