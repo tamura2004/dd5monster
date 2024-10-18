@@ -8,8 +8,8 @@ type Props = {
 };
 
 export const Cell = ({ x, y, id }: Props) => {
-  const { setNodeRef, isOver } = useDroppable({ id });
-  const backgroundColor = isOver ? "lightGreen" : "white";
+  const { setNodeRef, isOver } = useDroppable({ id, data: { x, y } });
+  const backgroundColor = isOver ? "lightgreen" : "white";
   return (
     <CellStyle
       ref={setNodeRef}

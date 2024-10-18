@@ -27,16 +27,27 @@ export const Piece = ({ x, y, id }: Props) => {
       $y={y}
       {...attributes}
       {...listeners}
-    />
+    >
+      {id}
+    </PieceStyle>
   );
 };
 
 const PieceStyle = styled.div<{ $x: number; $y: number }>`
-    position: absolute;
-    left: ${(props) => props.$x * (CellSize - CellBorderSize) + (CellSize - CellBorderSize - PieceSize) / 2}px;
-    top: ${(props) => props.$y * (CellSize - CellBorderSize) + (CellSize - CellBorderSize - PieceSize) / 2}px;
-    width: ${PieceSize}px;
-    height: ${PieceSize}px;
-    border: ${PieceBorderSize}px solid #0066ff;
-    border-radius: 50%;
+  position: absolute;
+  left: ${(props) =>
+    props.$x * (CellSize - CellBorderSize) +
+    (CellSize - CellBorderSize - PieceSize) / 2}px;
+  top: ${(props) =>
+    props.$y * (CellSize - CellBorderSize) +
+    (CellSize - CellBorderSize - PieceSize) / 2}px;
+  cursor: grab;
+  text-align: center;
+  color: white;
+  line-height: ${PieceSize}px;
+  width: ${PieceSize}px;
+  height: ${PieceSize}px;
+  background: dodgerblue;
+  border: ${PieceBorderSize}px solid darkblue;
+  border-radius: 50%;
 `;
