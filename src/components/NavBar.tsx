@@ -4,9 +4,10 @@ type Props = {
   page: Page;
   setPage: (page: Page) => void;
   reRoll: () => void;
+  reRollLabel: string;
 };
 
-export const NavBar = ({ page, setPage, reRoll }: Props) => {
+export const NavBar = ({ page, setPage, reRoll, reRollLabel }: Props) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
       <div className="container-fluid">
@@ -56,7 +57,7 @@ export const NavBar = ({ page, setPage, reRoll }: Props) => {
             </li>
           </ul>
           <button className="btn btn-secondary" onClick={reRoll}>
-            <i className="bi bi-dice-5-fill">ダイスを振る</i>
+            <i className="bi bi-dice-5-fill">{reRollLabel}</i>
           </button>
         </div>
       </div>

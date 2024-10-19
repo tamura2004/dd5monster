@@ -1,4 +1,10 @@
-import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../firebase.ts";
 import { useEffect, useState } from "react";
 
@@ -22,5 +28,9 @@ export const useUnits = () => {
     setDoc(doc(db, "monsterUnits", id), { id, x, y }).then();
   }
 
-  return { units, setUnits, move };
+  const deleteUnit = (id: string) => {
+    deleteDoc(doc(db, "monsterUnits", id)).then();
+  }
+
+  return { units, setUnits, move, deleteUnit };
 };

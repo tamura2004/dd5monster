@@ -45,8 +45,8 @@ const PieceStyle = styled.div<{ $x: number; $y: number }>`
   color: white;
   width: ${PieceSize}px;
   height: ${PieceSize}px;
-  background: dodgerblue;
-  border: ${PieceBorderSize}px solid darkblue;
+  background: crimson;
+  border: ${PieceBorderSize}px solid darkred;
   border-radius: 50%;
   display: flex;
   justify-content: center;

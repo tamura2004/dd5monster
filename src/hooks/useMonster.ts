@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { sample } from "../tools/ArrayUtil.ts";
+import { range, sample } from "../tools/ArrayUtil.ts";
 import { MonsterExps } from "../data/monsterExps.ts";
 import { CR } from "../models/CR.ts";
 import { CrMonsterTable } from "../data/CrMonsterTable.ts";
@@ -100,12 +100,18 @@ export const useMonster = (totalExp: number) => {
     monsterRace.enhancer(monsterClass.enhancer(baseMonster)),
   );
 
+  const initiative = useMemo(() => {
+    const dexMod = Math.floor((monster.abilities[Ability.DEX] - 10) / 2);
+    return range(num).map(() => Math.floor(Math.random() * 20) + 1 + dexMod);
+  }, [num, monster]);
+
   const reRollMonster = () => {
     setSeed(Math.random());
-  }
+  };
 
   return {
     monster,
+    initiative,
     reRollMonster,
   };
 };

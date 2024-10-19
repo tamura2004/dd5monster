@@ -40,5 +40,4 @@ const BoardStyle = styled.div`
   position: relative;
   width: ${BoardWidth * CellSize}px;
   height: ${BoardHeight * CellSize}px;
-  margin: 0 auto;
 `;
