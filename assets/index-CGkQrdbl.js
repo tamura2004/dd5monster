@@ -1953,6 +1953,7 @@ This typically indicates that your device does not have a healthy Internet conne
 `,Yk=Us(NE)`
   position: absolute;
   cursor: grab;
+  touch-action: none;
   left: ${t=>t.$left}px;
   top: ${t=>t.$top}px;
 `,Xk=t=>{const{id:e,x:n,y:r,type:i}=t,{setNodeRef:s,listeners:o,attributes:l,transform:u}=zx({id:e}),h={transform:$d.Transform.toString(u)},f=n*(Jn-Zi)+(Jn-Zi-Cu)/2,p=r*(Jn-Zi)+(Jn-Zi-Cu)/2;return $.jsx(Yk,{$left:f,$top:p,$isMonster:i===uc.Monster,ref:s,style:h,...l,...o,children:e})},Jk=({move:t,units:e})=>$.jsx(Zk,{children:$.jsxs($x,{onDragEnd:({over:n,active:r})=>{if(n&&n.data.current&&r){const{x:i,y:s}=n.data.current,o=r.id.toString();t(o,i,s)}},children:[ea(Sp).map(n=>ea(cc).map(r=>Ip[n][r]==="."?$.jsx(Gk,{id:`${r}-${n}`,x:r,y:n},`${r}-${n}`):$.jsx(DE,{x:r,y:n,$backgroundColor:"black"},`${r}-${n}`))),e.map(n=>$.jsx(Xk,{...n},n.id))]})}),Zk=Us.div`
