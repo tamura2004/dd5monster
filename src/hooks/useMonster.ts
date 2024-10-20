@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { range, sample } from "../tools/ArrayUtil.ts";
 import { MonsterExps } from "../data/monsterExps.ts";
 import { CR } from "../models/CR.ts";
@@ -8,9 +8,19 @@ import { MonsterType } from "../models/MonsterType.ts";
 import { Ability } from "../models/Ability.ts";
 import { Monster } from "../models/Monster.ts";
 import { MonsterTemplates, TemplateType } from "../data/MonsterTemplates.ts";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
+import { db } from "../firebase.ts";
+import { MonsterUtil } from "../tools/MonsterUtil.ts";
 
 export const useMonster = (totalExp: number) => {
   const [seed, setSeed] = useState<number>(0);
+  const [monster, setMonster] = useState<Monster>(MonsterUtil.empty);
+
+  useEffect(() => {
+    onSnapshot(doc(db, "monster", "monster"), (doc) => {
+      setMonster(doc.data() as Monster);
+    });
+  }, []);
 
   const { cr, num, exp } = useMemo(
     () =>
@@ -21,7 +31,7 @@ export const useMonster = (totalExp: number) => {
             const num = Math.floor(totalExp / exp);
             return { cr, num, exp };
           })
-          .filter(({ num }) => 1 <= num && num <= 20),
+          .filter(({ num }) => 1 <= num && num <= 15),
       ),
     [seed],
   );
@@ -96,7 +106,7 @@ export const useMonster = (totalExp: number) => {
     baseBonus,
   };
 
-  const monster = monsterType.enhancer(
+  const generatedMonster = monsterType.enhancer(
     monsterRace.enhancer(monsterClass.enhancer(baseMonster)),
   );
 
@@ -107,6 +117,7 @@ export const useMonster = (totalExp: number) => {
 
   const reRollMonster = () => {
     setSeed(Math.random());
+    setDoc(doc(db, "monster", "monster"), generatedMonster).then();
   };
 
   return {

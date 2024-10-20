@@ -100,5 +100,4 @@ export const monsterRaces = [
   "ミミック",
   "ドッペルゲンガー",
   "ナイトメア",
-
 ];

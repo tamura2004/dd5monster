@@ -1,5 +1,5 @@
 import { Settings } from "../models/Settings.ts";
-import { Difficulty } from "../data/Difficulty.ts";
+import { Difficulty } from "../models/Difficulty.ts";
 
 type Props = {
   settings: Settings;

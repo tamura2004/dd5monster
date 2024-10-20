@@ -1,10 +1,11 @@
 import { DndContext } from "@dnd-kit/core";
 import { Cell } from "./Cell.tsx";
-import { Piece } from "./Piece.tsx";
-import { BoardHeight, BoardWidth, CellSize } from "../settings.ts";
+import { BoardData, BoardHeight, BoardWidth, CellSize } from "../settings.ts";
 import { styled } from "styled-components";
-import { Unit } from "../hooks/useUnits.ts";
 import { range } from "../tools/ArrayUtil.ts";
+import { Unit } from "../models/Unit.ts";
+import { Piece } from "./Piece.tsx";
+import { CellStyle } from "../styles/CellStyle.tsx";
 
 type Props = {
   move: (id: string, x: number, y: number) => void;
@@ -24,9 +25,18 @@ export const Board = ({ move, units }: Props) => {
         }}
       >
         {range(BoardHeight).map((y) =>
-          range(BoardWidth).map((x) => (
-            <Cell key={`${x}-${y}`} id={`${x}-${y}`} x={x} y={y} />
-          )),
+          range(BoardWidth).map((x) =>
+            BoardData[y][x] === "." ? (
+              <Cell key={`${x}-${y}`} id={`${x}-${y}`} x={x} y={y} />
+            ) : (
+              <CellStyle
+                key={`${x}-${y}`}
+                x={x}
+                y={y}
+                $backgroundColor="black"
+              />
+            ),
+          ),
         )}
         {units.map((unit) => (
           <Piece key={unit.id} {...unit} />

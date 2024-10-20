@@ -1,55 +1,33 @@
+import { Unit, UnitType } from "../models/Unit.ts";
+import { MovablePieceStyle } from "../styles/PieceStyle.ts";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { styled } from "styled-components";
-import {
-  CellBorderSize,
-  CellSize,
-  PieceBorderSize,
-  PieceSize,
-} from "../settings.ts";
+import { CellBorderSize, CellSize, PieceSize } from "../settings.ts";
 
-type Props = {
-  x: number;
-  y: number;
-  id: string;
-};
-
-export const Piece = ({ x, y, id }: Props) => {
+export const Piece = (unit: Unit) => {
+  const { id, x, y, type } = unit;
   const { setNodeRef, listeners, attributes, transform } = useDraggable({ id });
   const style = {
     transform: CSS.Transform.toString(transform),
   };
+  const left =
+    x * (CellSize - CellBorderSize) +
+    (CellSize - CellBorderSize - PieceSize) / 2;
+  const top =
+    y * (CellSize - CellBorderSize) +
+    (CellSize - CellBorderSize - PieceSize) / 2;
+
   return (
-    <PieceStyle
+    <MovablePieceStyle
+      $left={left}
+      $top={top}
+      $isMonster={type === UnitType.Monster}
       ref={setNodeRef}
       style={style}
-      $x={x}
-      $y={y}
       {...attributes}
       {...listeners}
     >
       {id}
-    </PieceStyle>
+    </MovablePieceStyle>
   );
 };
-
-const PieceStyle = styled.div<{ $x: number; $y: number }>`
-  position: absolute;
-  left: ${(props) =>
-    props.$x * (CellSize - CellBorderSize) +
-    (CellSize - CellBorderSize - PieceSize) / 2}px;
-  top: ${(props) =>
-    props.$y * (CellSize - CellBorderSize) +
-    (CellSize - CellBorderSize - PieceSize) / 2}px;
-  cursor: grab;
-  color: white;
-  width: ${PieceSize}px;
-  height: ${PieceSize}px;
-  background: crimson;
-  border: ${PieceBorderSize}px solid darkred;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;

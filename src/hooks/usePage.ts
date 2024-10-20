@@ -1,7 +1,4 @@
-import { BoardHeight, BoardWidth } from "../settings.ts";
-import {useMemo, useState} from "react";
-import { range } from "../tools/ArrayUtil.ts";
-import {Monster} from "../models/Monster.ts";
+import { useMemo, useState } from "react";
 
 export const Page = {
   Setting: "Setting",
@@ -10,39 +7,8 @@ export const Page = {
 } as const;
 export type Page = (typeof Page)[keyof typeof Page];
 
-export const usePage = (
-  reRollMonster: () => void,
-  move: (id: string, x: number, y: number) => void,
-  monster: Monster,
-  deleteUnit: (id: string) => void,
-) => {
+export const usePage = (reRollByPage: Record<Page, () => void>) => {
   const [page, setPage] = useState<Page>(Page.Setting);
-
-  const reRoll = () => {
-    switch (page) {
-      case Page.Setting:
-        reRollMonster();
-        setPage(Page.Monster);
-        break;
-      case Page.Monster:
-        reRollMonster();
-        break;
-      case Page.Room:
-        range(monster.num).forEach((i) => {
-          const id = `m${i}`;
-          const x = Math.floor(Math.random() * BoardWidth);
-          const y = Math.floor(Math.random() * BoardHeight);
-          move(id, x, y);
-        });
-        range(20 - monster.num).forEach((i) => {
-          const id = `m${i + monster.num}`;
-          deleteUnit(id);
-        });
-        break;
-      default:
-        break;
-    }
-  };
 
   const reRollLabel = useMemo(() => {
     switch (page) {
@@ -56,6 +22,10 @@ export const usePage = (
         return "";
     }
   }, [page]);
+
+  const reRoll = () => {
+    reRollByPage[page]();
+  };
 
   return { page, setPage, reRoll, reRollLabel };
 };

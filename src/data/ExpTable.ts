@@ -1,4 +1,4 @@
-import { Difficulty } from "./Difficulty.ts";
+import { Difficulty } from "../models/Difficulty.ts";
 
 export const ExpTable = {
   [Difficulty.EASY]: [

@@ -1,4 +1,4 @@
-import { Difficulty } from "../data/Difficulty.ts";
+import { Difficulty } from "./Difficulty.ts";
 
 export type Settings = {
   level: number;

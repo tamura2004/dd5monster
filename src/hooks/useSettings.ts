@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Settings } from "../models/Settings.ts";
-import { Difficulty } from "../data/Difficulty.ts";
+import { Difficulty } from "../models/Difficulty.ts";
 import { ExpTable } from "../data/ExpTable.ts";
 
 export const useSettings = (initialSettings: Settings) => {

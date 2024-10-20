@@ -6,7 +6,7 @@ import { MonsterType } from "./MonsterType.ts";
 type Entry = {
   label: string;
   text: string;
-}
+};
 
 export type Monster = {
   name: string;
