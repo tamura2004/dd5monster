@@ -22,6 +22,7 @@ export const MovablePieceStyle = styled(PieceStyle)<{
 }>`
   position: absolute;
   cursor: grab;
+  touch-action: none;
   left: ${(props) => props.$left}px;
   top: ${(props) => props.$top}px;
 `;
