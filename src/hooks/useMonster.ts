@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { range, sample } from "../tools/ArrayUtil.ts";
+import { sample } from "../tools/ArrayUtil.ts";
 import { MonsterExps } from "../data/monsterExps.ts";
 import { CR } from "../models/CR.ts";
 import { CrMonsterTable } from "../data/CrMonsterTable.ts";
@@ -104,16 +104,18 @@ export const useMonster = (totalExp: number) => {
     diceNum,
     damageMod,
     baseBonus,
+    initiative: 0,
   };
 
   const generatedMonster = monsterType.enhancer(
     monsterRace.enhancer(monsterClass.enhancer(baseMonster)),
   );
 
-  const initiative = useMemo(() => {
+  const rollInitiative = () => {
     const dexMod = Math.floor((monster.abilities[Ability.DEX] - 10) / 2);
-    return range(num).map(() => Math.floor(Math.random() * 20) + 1 + dexMod);
-  }, [num, monster]);
+    const initiative = Math.floor(Math.random() * 20) + 1 + dexMod;
+    setDoc(doc(db, "monster", "monster"), { initiative }, { merge: true }).then();
+  }
 
   const reRollMonster = () => {
     setSeed(Math.random());
@@ -122,7 +124,7 @@ export const useMonster = (totalExp: number) => {
 
   return {
     monster,
-    initiative,
     reRollMonster,
+    rollInitiative,
   };
 };

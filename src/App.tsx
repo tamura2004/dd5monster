@@ -15,7 +15,7 @@ import { CharacterUtil } from "./tools/CharacterUtil.ts";
 function App() {
   const { settings, setLevel, setNumCharacters, setDifficulty, totalExp } =
     useSettings(initialSettings);
-  const { monster, reRollMonster, initiative } = useMonster(totalExp);
+  const { monster, reRollMonster, rollInitiative } = useMonster(totalExp);
   const { units, move, setUnit, deleteUnit } = useUnits();
 
   const reRollByPage = {
@@ -37,6 +37,7 @@ function App() {
         const unit = CharacterUtil.unit(character);
         setUnit(unit);
       });
+      rollInitiative();
     },
   };
 
@@ -65,7 +66,6 @@ function App() {
             units={units}
             move={move}
             monster={monster}
-            initiative={initiative}
           />
         )}
       </div>

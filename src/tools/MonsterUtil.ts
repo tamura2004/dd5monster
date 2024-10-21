@@ -27,7 +27,6 @@ const unit = (monster: Monster, i: number) => {
     name: monster.name,
     x,
     y,
-    initiative: initiative(monster),
   } as Unit;
 };
 
@@ -60,6 +59,7 @@ export const empty: Monster = {
   diceNum: -1,
   damageMod: -1,
   baseBonus: -1,
+  initiative: -1,
 };
 
 export const MonsterUtil = {

@@ -24,6 +24,7 @@ export type Character = {
   ac: number;
   hp: number;
   abilities: Record<Ability, number>;
+  initiative: number;
 };
 
 export const Characters: Record<string, Character> = {
@@ -45,6 +46,7 @@ export const Characters: Record<string, Character> = {
       [Ability.WIS]: 16,
       [Ability.CHA]: 8,
     },
+    initiative: 6,
   },
   ["灰鼠"]: {
     id: "灰鼠",
@@ -64,10 +66,11 @@ export const Characters: Record<string, Character> = {
       [Ability.WIS]: 10,
       [Ability.CHA]: 10,
     },
+    initiative: 17,
   },
-  ["狂犬"]: {
-    id: "狂犬",
-    name: "マッドドッグ",
+  ["エマ"]: {
+    id: "エマ",
+    name: "エマさん",
     level: 4,
     classLevel: {
       [Clazz.Barbarian]: 2,
@@ -83,10 +86,11 @@ export const Characters: Record<string, Character> = {
       [Ability.WIS]: 12,
       [Ability.CHA]: 8,
     },
+    initiative: 18,
   },
-  ["赤狼"]: {
-    id: "赤狼",
-    name: "レッドウルフ",
+  ["エド"]: {
+    id: "エド",
+    name: "先生",
     level: 4,
     classLevel: {
       [Clazz.Rogue]: 2,
@@ -102,5 +106,6 @@ export const Characters: Record<string, Character> = {
       [Ability.WIS]: 12,
       [Ability.CHA]: 8,
     },
+    initiative: 10,
   },
 };

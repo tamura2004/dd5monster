@@ -1,21 +1,32 @@
-import { Unit, UnitType } from "../models/Unit.ts";
 import { PieceStyle } from "../styles/PieceStyle.ts";
+import { Monster } from "../models/Monster.ts";
+import { Character } from "../models/Character.ts";
 
 type Props = {
-  unit: Unit;
+  item: Character | Monster;
 };
 
-export const InitiativeListItem = ({ unit }: Props) => {
+const isMonster = (item: any): item is Monster => {
+  return item.monsterType !== undefined;
+};
+
+export const InitiativeListItem = ({ item }: Props) => {
   return (
     <div
       className="d-flex flex-row mb-2 p-2 border rounded align-items-center"
-      key={unit.id}
+      key={item.name}
     >
-      <PieceStyle {...unit} $isMonster={unit.type === UnitType.Monster}>
-        {unit.id}
-      </PieceStyle>
-      <div className="flex-grow-1 p-2">{unit.name}</div>
-      <div className="fs-5">{unit.initiative}</div>
+      {isMonster(item) ? (
+        <PieceStyle {...item} $isMonster={true}>
+          怪物
+        </PieceStyle>
+      ) : (
+        <PieceStyle {...item} $isMonster={false}>
+          {item.id}
+        </PieceStyle>
+      )}
+      <div className="flex-grow-1 p-2">{item.name}</div>
+      <div className="fs-5">{item.initiative}</div>
     </div>
   );
 };

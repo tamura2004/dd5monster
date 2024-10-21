@@ -1,20 +1,19 @@
 import { Monster } from "../models/Monster.ts";
-import { Unit } from "../models/Unit.ts";
 import { InitiativeListItem } from "./InitiativeListItem.tsx";
+import {Character, Characters} from "../models/Character.ts";
 
 type Props = {
-  units: Unit[];
   monster: Monster;
 };
 
-export const Initiative = ({ units }: Props) => {
-  const sortedUnits = units.sort((a, b) => b.initiative - a.initiative);
+export const Initiative = ({ monster }: Props) => {
+  const sorted: Array<Monster | Character> = [monster, ...Object.values(Characters)].sort((a, b) => b.initiative - a.initiative);
 
   return (
     <div className="d-flex flex-column flex-grow-1">
       <h5 className="pb-2">イニシアティブ</h5>
-      {sortedUnits.map((unit) => (
-        <InitiativeListItem key={unit.id} unit={unit} />
+      {sorted.map((item) => (
+        <InitiativeListItem key={item.name} item={item} />
       ))}
     </div>
   );
