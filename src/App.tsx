@@ -11,12 +11,15 @@ import { Page, usePage } from "./hooks/usePage.ts";
 import { MonsterUtil } from "./tools/MonsterUtil.ts";
 import { Characters } from "./models/Character.ts";
 import { CharacterUtil } from "./tools/CharacterUtil.ts";
+import { HitPoints } from "./components/HitPoints.tsx";
+import { useState } from "react";
 
 function App() {
   const { settings, setLevel, setNumCharacters, setDifficulty, totalExp } =
     useSettings(initialSettings);
   const { monster, reRollMonster } = useMonster(totalExp);
-  const { units, move, setUnit, deleteUnit } = useUnits();
+  const { units, move, setUnit, deleteUnit, setHitPoint } = useUnits();
+  const [isMaster, setIsMaster] = useState<boolean>(false);
 
   const reRollByPage = {
     [Page.Setting]: () => {
@@ -38,6 +41,12 @@ function App() {
         setUnit(unit);
       });
     },
+    [Page.HitPoint]: () => {
+      range(monster.num).forEach((i) => {
+        const id = `m${i}`;
+        setHitPoint(id, monster.hp);
+      });
+    },
   };
 
   const { page, setPage, reRollLabel, reRoll } = usePage(reRollByPage);
@@ -49,6 +58,8 @@ function App() {
         setPage={setPage}
         reRoll={reRoll}
         reRollLabel={reRollLabel}
+        isMaster={isMaster}
+        setIsMaster={setIsMaster}
       />
       <div className="container-fluid">
         {page === Page.Setting && (
@@ -61,9 +72,12 @@ function App() {
         )}
         {page === Page.Monster && <MonsterCard monster={monster} />}
         {page === Page.Room && (
-          <Room
+          <Room units={units} move={move} monster={monster} />
+        )}
+        {page === Page.HitPoint && (
+          <HitPoints
             units={units}
-            move={move}
+            setHitPoint={setHitPoint}
             monster={monster}
           />
         )}

@@ -21,12 +21,14 @@ const randomPos = () => {
 
 const unit = (monster: Monster, i: number) => {
   const { x, y } = randomPos();
+  const { hp, name } = monster;
   return {
     id: `m${i}`,
     type: UnitType.Monster,
-    name: monster.name,
+    name,
     x,
     y,
+    hp,
   } as Unit;
 };
 

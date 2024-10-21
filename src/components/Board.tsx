@@ -3,7 +3,7 @@ import { Cell } from "./Cell.tsx";
 import { BoardData, BoardHeight, BoardWidth, CellSize } from "../settings.ts";
 import { styled } from "styled-components";
 import { range } from "../tools/ArrayUtil.ts";
-import { Unit } from "../models/Unit.ts";
+import { Unit, UnitType } from "../models/Unit.ts";
 import { Piece } from "./Piece.tsx";
 import { CellStyle } from "../styles/CellStyle.tsx";
 
@@ -38,9 +38,11 @@ export const Board = ({ move, units }: Props) => {
             ),
           ),
         )}
-        {units.map((unit) => (
-          <Piece key={unit.id} {...unit} />
-        ))}
+        {units
+          .filter((unit) => unit.hp > 0 || unit.type === UnitType.Character)
+          .map((unit) => (
+            <Piece key={unit.id} {...unit} />
+          ))}
       </DndContext>
     </BoardStyle>
   );

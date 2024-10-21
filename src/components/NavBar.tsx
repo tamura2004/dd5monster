@@ -5,9 +5,18 @@ type Props = {
   setPage: (page: Page) => void;
   reRoll: () => void;
   reRollLabel: string;
+  isMaster: boolean;
+  setIsMaster: (isMaster: boolean) => void;
 };
 
-export const NavBar = ({ page, setPage, reRoll, reRollLabel }: Props) => {
+export const NavBar = ({
+  page,
+  setPage,
+  reRoll,
+  reRollLabel,
+  isMaster,
+  setIsMaster,
+}: Props) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
       <div className="container-fluid">
@@ -55,7 +64,40 @@ export const NavBar = ({ page, setPage, reRoll, reRollLabel }: Props) => {
                 戦闘マップ
               </a>
             </li>
+            {isMaster && (
+              <li className="nav-item">
+                <a
+                  className={
+                    page === Page.HitPoint ? "nav-link active" : "nav-link"
+                  }
+                  onClick={() => setPage(Page.HitPoint)}
+                >
+                  ヒットポイント
+                </a>
+              </li>
+            )}
           </ul>
+          <div className="form-check form-switch me-4">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="isMaster"
+              checked={isMaster}
+              onChange={(e) => {
+                console.log(`isMaster: ${e.target.checked}`);
+                setIsMaster(e.target.checked);
+              }}
+            />
+            {isMaster ? (
+              <label className="form-check-label text-white" htmlFor="isMaster">
+                マスター：有効
+              </label>
+            ) : (
+              <label className="form-check-label text-white" htmlFor="isMaster">
+                マスター：無効
+              </label>
+            )}
+          </div>
           <button className="btn btn-secondary" onClick={reRoll}>
             <i className="bi bi-dice-5-fill">{reRollLabel}</i>
           </button>

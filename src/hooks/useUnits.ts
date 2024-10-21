@@ -31,5 +31,9 @@ export const useUnits = () => {
     deleteDoc(doc(db, "units", id)).then();
   };
 
-  return { units, move, setUnit, deleteUnit };
+  const setHitPoint = (id: string, hp: number) => {
+    setDoc(doc(db, "units", id), { hp }, { merge: true }).then();
+  };
+
+  return { units, move, setUnit, deleteUnit, setHitPoint };
 };

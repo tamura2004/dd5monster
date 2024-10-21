@@ -4,6 +4,7 @@ export const Page = {
   Setting: "Setting",
   Monster: "Monster",
   Room: "Room",
+  HitPoint: "HitPoint",
 } as const;
 export type Page = (typeof Page)[keyof typeof Page];
 
@@ -18,6 +19,8 @@ export const usePage = (reRollByPage: Record<Page, () => void>) => {
         return "モンスターを再作成";
       case Page.Room:
         return "ユニットを配置";
+      case Page.HitPoint:
+        return "ヒットポイントを初期化";
       default:
         return "";
     }
