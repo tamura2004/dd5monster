@@ -11,13 +11,15 @@ const randomPos = () => {
 };
 
 const unit = (character: Character): Unit => {
-  const { id } = character;
+  const { id, name, hp } = character;
   const { x, y } = randomPos();
   return {
     id,
     type: UnitType.Character,
+    name,
     x,
     y,
+    hp,
   };
 };
 
