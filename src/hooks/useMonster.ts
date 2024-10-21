@@ -74,6 +74,7 @@ export const useMonster = (totalExp: number) => {
   const damage = Math.floor((damageMin + damageMax) / 2);
   const diceNum = Math.floor(damage / 3.5);
   const damageMod = Math.floor(damage - diceNum * 3.5);
+  const initiative = Math.floor(Math.random() * 20) + baseBonus;
 
   const baseMonster: Monster = {
     name: monsterRace.name + monsterClass.name,
@@ -104,18 +105,12 @@ export const useMonster = (totalExp: number) => {
     diceNum,
     damageMod,
     baseBonus,
-    initiative: 0,
+    initiative,
   };
 
   const generatedMonster = monsterType.enhancer(
     monsterRace.enhancer(monsterClass.enhancer(baseMonster)),
   );
-
-  const rollInitiative = () => {
-    const dexMod = Math.floor((monster.abilities[Ability.DEX] - 10) / 2);
-    const initiative = Math.floor(Math.random() * 20) + 1 + dexMod;
-    setDoc(doc(db, "monster", "monster"), { initiative }, { merge: true }).then();
-  }
 
   const reRollMonster = () => {
     setSeed(Math.random());
@@ -125,6 +120,5 @@ export const useMonster = (totalExp: number) => {
   return {
     monster,
     reRollMonster,
-    rollInitiative,
   };
 };
