@@ -1,6 +1,6 @@
 import { DndContext } from "@dnd-kit/core";
 import { Cell } from "./Cell.tsx";
-import { BoardData, BoardHeight, BoardWidth, CellSize } from "../settings.ts";
+import { BoardHeight, BoardWidth, CellSize } from "../settings.ts";
 import { styled } from "styled-components";
 import { range } from "../tools/ArrayUtil.ts";
 import { Unit, UnitType } from "../models/Unit.ts";
@@ -10,9 +10,10 @@ import { CellStyle } from "../styles/CellStyle.tsx";
 type Props = {
   move: (id: string, x: number, y: number) => void;
   units: Unit[];
+  board: string[];
 };
 
-export const Board = ({ move, units }: Props) => {
+export const Board = ({ move, units, board }: Props) => {
   return (
     <BoardStyle>
       <DndContext
@@ -26,7 +27,7 @@ export const Board = ({ move, units }: Props) => {
       >
         {range(BoardHeight).map((y) =>
           range(BoardWidth).map((x) =>
-            BoardData[y][x] === "." ? (
+            board[y][x] === "." ? (
               <Cell key={`${x}-${y}`} id={`${x}-${y}`} x={x} y={y} />
             ) : (
               <CellStyle
@@ -48,7 +49,7 @@ export const Board = ({ move, units }: Props) => {
   );
 };
 
-const BoardStyle = styled.div`
+export const BoardStyle = styled.div`
   position: relative;
   width: ${BoardWidth * CellSize}px;
   height: ${BoardHeight * CellSize}px;

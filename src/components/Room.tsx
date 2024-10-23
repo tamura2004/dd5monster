@@ -8,6 +8,7 @@ type Props = {
   units: Unit[];
   move: (id: string, x: number, y: number) => void;
   monster: Monster;
+  board: string[];
 };
 
 export const Room = (props: Props) => {

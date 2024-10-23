@@ -13,12 +13,16 @@ import { Characters } from "./models/Character.ts";
 import { CharacterUtil } from "./tools/CharacterUtil.ts";
 import { HitPoints } from "./components/HitPoints.tsx";
 import { useState } from "react";
+import { useBoard } from "./hooks/useBoard.ts";
+import { BoardData } from "./settings.ts";
+import { EditRoom } from "./components/EditRoom.tsx";
 
 function App() {
   const { settings, setLevel, setNumCharacters, setDifficulty, totalExp } =
     useSettings(initialSettings);
   const { monster, reRollMonster } = useMonster(totalExp);
   const { units, move, setUnit, deleteUnit, setHitPoint } = useUnits();
+  const { board, flipCell } = useBoard(BoardData);
   const [isMaster, setIsMaster] = useState<boolean>(false);
 
   const reRollByPage = {
@@ -47,6 +51,9 @@ function App() {
         setHitPoint(id, monster.hp);
       });
     },
+    [Page.EditRoom]: () => {
+      flipCell(0, 0);
+    },
   };
 
   const { page, setPage, reRollLabel, reRoll } = usePage(reRollByPage);
@@ -72,7 +79,7 @@ function App() {
         )}
         {page === Page.Monster && <MonsterCard monster={monster} />}
         {page === Page.Room && (
-          <Room units={units} move={move} monster={monster} />
+          <Room units={units} move={move} monster={monster} board={board} />
         )}
         {page === Page.HitPoint && (
           <HitPoints
@@ -80,6 +87,9 @@ function App() {
             setHitPoint={setHitPoint}
             monster={monster}
           />
+        )}
+        {page === Page.EditRoom && (
+          <EditRoom board={board} flipCell={flipCell} />
         )}
       </div>
     </>

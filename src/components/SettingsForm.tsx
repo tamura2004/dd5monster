@@ -29,11 +29,6 @@ export const SettingsForm = ({
             キャラクターレベル {i + 1}
           </option>
         ))}
-        {[...Array(20).keys()].map((i) => (
-          <option key={i} value={i + 1}>
-            キャラクターレベル {i + 1}
-          </option>
-        ))}
       </select>
       <select
         value={numCharacters}

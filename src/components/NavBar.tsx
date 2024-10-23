@@ -76,6 +76,18 @@ export const NavBar = ({
                 </a>
               </li>
             )}
+            {isMaster && (
+              <li className="nav-item">
+                <a
+                  className={
+                    page === Page.EditRoom ? "nav-link active" : "nav-link"
+                  }
+                  onClick={() => setPage(Page.EditRoom)}
+                >
+                  マップ編集
+                </a>
+              </li>
+            )}
           </ul>
           <div className="form-check form-switch me-4">
             <input

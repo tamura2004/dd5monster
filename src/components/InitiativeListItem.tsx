@@ -26,7 +26,13 @@ export const InitiativeListItem = ({ item }: Props) => {
         </PieceStyle>
       )}
       <div className="flex-grow-1 p-2">{item.name}</div>
-      <div className="fs-5">{item.initiative}</div>
+      <div className="row">
+        <div className="fs-6 col d-flex flex-column">
+          <div style={{ fontSize: 12 }}>hp</div>
+          <div>{item.hp}</div>
+        </div>
+        <div className="fs-6 col">{item.initiative}</div>
+      </div>
     </div>
   );
 };
