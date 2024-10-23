@@ -32,6 +32,16 @@ const unit = (monster: Monster, i: number) => {
   } as Unit;
 };
 
+const moveEnhancer = (move: string) => (monster: Monster) => ({
+  ...monster,
+  move: [...monster.move, move],
+});
+
+const saEnhancer = (label: string, text: string) => (monster: Monster) => ({
+  ...monster,
+  specialAbilities: [...monster.specialAbilities, { label, text }],
+});
+
 export const empty: Monster = {
   name: "string",
   num: -1,
@@ -69,4 +79,6 @@ export const MonsterUtil = {
   dexMod,
   unit,
   empty,
+  moveEnhancer,
+  saEnhancer,
 };

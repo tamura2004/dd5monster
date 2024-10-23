@@ -7,7 +7,11 @@ import { MonsterSize } from "../models/MonsterSize.ts";
 import { MonsterType } from "../models/MonsterType.ts";
 import { Ability } from "../models/Ability.ts";
 import { Monster } from "../models/Monster.ts";
-import { MonsterTemplates, TemplateType } from "../data/MonsterTemplates.ts";
+import {
+  MonsterTemplates,
+  seq,
+  TemplateType,
+} from "../data/MonsterTemplates.ts";
 import { doc, onSnapshot, setDoc } from "firebase/firestore";
 import { db } from "../firebase.ts";
 import { MonsterUtil } from "../tools/MonsterUtil.ts";
@@ -108,9 +112,11 @@ export const useMonster = (totalExp: number) => {
     initiative,
   };
 
-  const generatedMonster = monsterType.enhancer(
-    monsterRace.enhancer(monsterClass.enhancer(baseMonster)),
-  );
+  const generatedMonster = seq(
+    monsterType.enhancer,
+    monsterRace.enhancer,
+    monsterClass.enhancer,
+  )(baseMonster);
 
   const reRollMonster = () => {
     setSeed(Math.random());
