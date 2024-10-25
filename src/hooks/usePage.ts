@@ -10,7 +10,7 @@ export const Page = {
 export type Page = (typeof Page)[keyof typeof Page];
 
 export const usePage = (reRollByPage: Record<Page, () => void>) => {
-  const [page, setPage] = useState<Page>(Page.Setting);
+  const [page, setPage] = useState<Page>(Page.Room);
 
   const reRollLabel = useMemo(() => {
     switch (page) {

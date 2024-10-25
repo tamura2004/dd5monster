@@ -1,4 +1,4 @@
-import { Unit } from "../models/Unit.ts";
+import { Unit, UnitType } from "../models/Unit.ts";
 import { PieceStyle } from "../styles/PieceStyle.ts";
 import { Monster } from "../models/Monster.ts";
 import { range } from "../tools/ArrayUtil.ts";
@@ -15,10 +15,15 @@ export const HitPointListItem = ({ unit, setHitPoint, monster }: Props) => {
       className="d-flex flex-row mb-2 p-2 border rounded align-items-center"
       key={unit.name}
     >
-      <PieceStyle {...unit} $isMonster={unit.hp === 0}>
+      <PieceStyle {...unit} $isMonster={unit.type === UnitType.Monster}>
         {unit.id}
       </PieceStyle>
-      <div className="flex-grow-1 p-2">{monster.name}</div>
+      <div className="flex-grow-1 p-2">
+        <div className="fs-6">
+          <span>{monster.name}</span>
+          {unit.hp <= 0 && <span className="text-danger">[撃破]</span>}
+        </div>
+      </div>
       <div className="fs-5 px-2">hp</div>
       <select
         value={unit.hp}

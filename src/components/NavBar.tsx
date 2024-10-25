@@ -36,26 +36,30 @@ export const NavBar = ({
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <a
-                className={
-                  page === Page.Setting ? "nav-link active" : "nav-link"
-                }
-                onClick={() => setPage(Page.Setting)}
-              >
-                設定
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className={
-                  page === Page.Monster ? "nav-link active" : "nav-link"
-                }
-                onClick={() => setPage(Page.Monster)}
-              >
-                モンスター
-              </a>
-            </li>
+            {isMaster && (
+              <li className="nav-item">
+                <a
+                  className={
+                    page === Page.Setting ? "nav-link active" : "nav-link"
+                  }
+                  onClick={() => setPage(Page.Setting)}
+                >
+                  設定
+                </a>
+              </li>
+            )}
+            {isMaster && (
+              <li className="nav-item">
+                <a
+                  className={
+                    page === Page.Monster ? "nav-link active" : "nav-link"
+                  }
+                  onClick={() => setPage(Page.Monster)}
+                >
+                  モンスター
+                </a>
+              </li>
+            )}
             <li className="nav-item">
               <a
                 className={page === Page.Room ? "nav-link active" : "nav-link"}
