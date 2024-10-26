@@ -7,14 +7,13 @@ import { MonsterSize } from "../models/MonsterSize.ts";
 import { MonsterType } from "../models/MonsterType.ts";
 import { Ability } from "../models/Ability.ts";
 import { Monster } from "../models/Monster.ts";
-import {
-  MonsterTemplates,
-  seq,
-  TemplateType,
-} from "../data/MonsterTemplates.ts";
+import { MonsterTemplates } from "../data/MonsterTemplates.ts";
 import { doc, onSnapshot, setDoc } from "firebase/firestore";
 import { db } from "../firebase.ts";
 import { MonsterUtil } from "../tools/MonsterUtil.ts";
+import { seq } from "../data/Eh.ts";
+import { TemplateType } from "../models/TemplateType.ts";
+import { Rarity } from "../models/Rarity.ts";
 
 export const useMonster = (totalExp: number) => {
   const [seed, setSeed] = useState<number>(0);
@@ -22,7 +21,9 @@ export const useMonster = (totalExp: number) => {
 
   useEffect(() => {
     onSnapshot(doc(db, "monster", "monster"), (doc) => {
-      setMonster(doc.data() as Monster);
+      if (doc.data() != null) {
+        setMonster(doc.data() as Monster);
+      }
     });
   }, []);
 
@@ -44,7 +45,9 @@ export const useMonster = (totalExp: number) => {
     () =>
       sample(
         MonsterTemplates.filter(
-          (template) => template.templateType === TemplateType.TYPE,
+          (template) =>
+            template.templateType === TemplateType.TYPE &&
+            template.rarity === Rarity.COMMON,
         ),
       ),
     [seed],
@@ -113,8 +116,8 @@ export const useMonster = (totalExp: number) => {
   };
 
   const generatedMonster = seq(
-    monsterType.enhancer,
     monsterRace.enhancer,
+    monsterType.enhancer,
     monsterClass.enhancer,
   )(baseMonster);
 

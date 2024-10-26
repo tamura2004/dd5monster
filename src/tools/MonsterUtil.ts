@@ -44,12 +44,12 @@ const saEnhancer = (label: string, text: string) => (monster: Monster) => ({
 
 export const empty: Monster = {
   name: "string",
-  num: -1,
+  num: 1,
   size: "中型",
   monsterType: "人型",
-  ac: -1,
-  hp: -1,
-  save: -1,
+  ac: 10,
+  hp: 1,
+  save: 1,
   move: [],
   skills: {},
   senses: [],

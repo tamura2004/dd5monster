@@ -17,13 +17,9 @@ export const InitiativeListItem = ({ item }: Props) => {
       key={item.name}
     >
       {isMonster(item) ? (
-        <PieceStyle {...item} $isMonster={true}>
-          怪物
-        </PieceStyle>
+        <PieceStyle $isMonster={true}>怪物</PieceStyle>
       ) : (
-        <PieceStyle {...item} $isMonster={false}>
-          {item.id}
-        </PieceStyle>
+        <PieceStyle $isMonster={false}>{item.id}</PieceStyle>
       )}
       <div className="flex-grow-1 p-2">{item.name}</div>
       <div className="fs-5">{item.initiative}</div>
