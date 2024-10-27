@@ -28,7 +28,7 @@ export const COMMON_BEAST_TEMPLATES = [
   {
     ...commonBeastTemplates,
     name: "ウィーゼル",
-    enhancer: seq(eh("敏捷＋＋"), eh("筋力ー")),
+    enhancer: seq(eh("敏捷++"), eh("筋力-")),
   },
   {
     ...commonBeastTemplates,

@@ -41,13 +41,24 @@ export const useMonster = (totalExp: number) => {
     [seed],
   );
 
+  const raritySet = new Set<Rarity>([Rarity.COMMON]);
+  if (Math.random() < 0.5) {
+    raritySet.add(Rarity.UNCOMMON);
+    // if (Math.random() < 0.5) {
+    //   raritySet.add(Rarity.RARE);
+    //   if (Math.random() < 0.5) {
+    //     raritySet.add(Rarity.MYTHIC);
+    //   }
+    // }
+  }
+
   const monsterType = useMemo(
     () =>
       sample(
         MonsterTemplates.filter(
           (template) =>
             template.templateType === TemplateType.TYPE &&
-            template.rarity === Rarity.COMMON,
+            raritySet.has(template.rarity),
         ),
       ),
     [seed],
@@ -59,7 +70,8 @@ export const useMonster = (totalExp: number) => {
         MonsterTemplates.filter(
           (template) =>
             template.templateType === TemplateType.RACE &&
-            template.monsterType === monsterType.monsterType,
+            template.monsterType === monsterType.monsterType &&
+            raritySet.has(template.rarity),
         ),
       ),
     [seed],
@@ -69,11 +81,17 @@ export const useMonster = (totalExp: number) => {
     () =>
       sample(
         MonsterTemplates.filter(
-          (template) => template.templateType === TemplateType.CLASS,
+          (template) =>
+            template.templateType === TemplateType.CLASS &&
+            raritySet.has(template.rarity),
         ),
       ),
     [seed],
   );
+
+  console.log(`monsterType: ${monsterType.name}`);
+  console.log(`monsterRace: ${monsterRace.name}`);
+  console.log(`monsterClass: ${monsterClass.name}`);
 
   const { baseBonus, ac, hpMin, hpMax, atBonus, damageMin, damageMax, save } =
     CrMonsterTable[cr as CR];
@@ -87,7 +105,7 @@ export const useMonster = (totalExp: number) => {
     name: monsterRace.name + monsterClass.name,
     num,
     size: MonsterSize.MEDIUM,
-    monsterType: MonsterType.HUMANOID,
+    monsterType: monsterType.monsterType ?? MonsterType.HUMANOID,
     ac,
     hp,
     save,

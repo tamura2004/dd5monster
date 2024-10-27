@@ -2,6 +2,7 @@ import { Ability } from "../models/Ability.ts";
 import { Monster } from "../models/Monster.ts";
 import { Unit, UnitType } from "../models/Unit.ts";
 import { BoardData, BoardWidth } from "../settings.ts";
+import { sample } from "./ArrayUtil.ts";
 
 const initiative = (monster: Monster) => {
   return Math.floor(Math.random() * 20) + 1 + dexMod(monster);
@@ -42,6 +43,17 @@ const saEnhancer = (label: string, text: string) => (monster: Monster) => ({
   specialAbilities: [...monster.specialAbilities, { label, text }],
 });
 
+const toDmDice = (damage_: number) => {
+  const damage = Math.floor(damage_);
+  const dice = sample([4, 6, 8, 10, 12]);
+  const average = (dice + 1) / 2;
+  const diceNum = Math.max(1, Math.floor(damage / average));
+  const damageMod = Math.floor(damage - diceNum * average);
+  const damageModStr =
+    damageMod === 0 ? "" : damageMod > 0 ? `+${damageMod}` : `${damageMod}`;
+  return `${damage}(${diceNum}d${dice}${damageModStr})`;
+};
+
 export const empty: Monster = {
   name: "string",
   num: 1,
@@ -81,4 +93,5 @@ export const MonsterUtil = {
   empty,
   moveEnhancer,
   saEnhancer,
+  toDmDice,
 };

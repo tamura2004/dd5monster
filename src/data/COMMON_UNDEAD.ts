@@ -9,16 +9,20 @@ const commonUndeadTemplates = {
   monsterType: MonsterType.UNDEAD,
 };
 
-export const COMMON_UNDEAD: Record<string, string[]> = {
-  ["グール"]: ["麻痺の爪"],
-  ["スケルトン"]: ["硬い骨"],
-  ["ゾンビ"]: ["アンデッドのしぶとさ"],
-};
-
-export const COMMON_UNDEAD_TEMPLATES = Object.entries(COMMON_UNDEAD).map(
-  ([name, labels]) => ({
+export const COMMON_UNDEAD_TEMPLATES = [
+  {
     ...commonUndeadTemplates,
-    name,
-    enhancer: seq(...labels.map((label) => eh(label))),
-  }),
-);
+    name: "グール",
+    enhancer: seq(eh("麻痺の爪")),
+  },
+  {
+    ...commonUndeadTemplates,
+    name: "スケルトン",
+    enhancer: seq(eh("硬い骨")),
+  },
+  {
+    ...commonUndeadTemplates,
+    name: "ゾンビ",
+    enhancer: seq(eh("アンデッドのしぶとさ")),
+  },
+];

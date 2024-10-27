@@ -11,21 +11,21 @@ export const COMMON_CLASS_TEMPLATES = [
   {
     ...commonClassTemplate,
     name: "ソルジャー",
-    enhancer: seq(eh("連携戦闘"), eh("ロングソード"), eh("筋力＋")),
+    enhancer: seq(eh("連携戦闘"), eh("ロングソード"), eh("筋力+")),
   },
   {
     ...commonClassTemplate,
     name: "プリースト",
-    enhancer: seq(eh("メイス"), eh("キュア・ライト・ウーンズ"), eh("判断＋")),
+    enhancer: seq(eh("メイス"), eh("キュア・ライト・ウーンズ"), eh("判断+")),
   },
   {
     ...commonClassTemplate,
     name: "アーチャー",
-    enhancer: seq(eh("ロングボウ"), eh("精密射撃"), eh("敏捷＋")),
+    enhancer: seq(eh("ロングボウ"), eh("精密射撃"), eh("敏捷+")),
   },
   {
     ...commonClassTemplate,
     name: "メイジ",
-    enhancer: seq(eh("ファイアボルト"), eh("マジックミサイル"), eh("知力＋")),
+    enhancer: seq(eh("ファイアボルト"), eh("マジックミサイル"), eh("知力+")),
   },
 ];
