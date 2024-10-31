@@ -24,7 +24,7 @@ function App() {
   const { monster, reRollMonster } = useMonster(totalExp);
   const { units, move, setUnit, deleteUnit, setHitPoint } = useUnits();
   const { board, flipCell } = useBoard(BoardData);
-  const { characters, setCharacter } = useCharacters(Characters);
+  const { characters } = useCharacters(Characters);
   const [isMaster, setIsMaster] = useState<boolean>(false);
   const activeCharacters = Object.values(characters).filter((character) => character.active);
 
