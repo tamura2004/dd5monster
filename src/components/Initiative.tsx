@@ -1,13 +1,16 @@
 import { Monster } from "../models/Monster.ts";
 import { InitiativeListItem } from "./InitiativeListItem.tsx";
-import {Character, Characters} from "../models/Character.ts";
+import { Character } from "../models/Character.ts";
 
 type Props = {
   monster: Monster;
+  characters: Character[];
 };
 
-export const Initiative = ({ monster }: Props) => {
-  const sorted: Array<Monster | Character> = [monster, ...Object.values(Characters)].sort((a, b) => b.initiative - a.initiative);
+export const Initiative = ({ monster, characters }: Props) => {
+  const sorted: Array<Monster | Character> = [monster, ...characters].sort(
+    (a, b) => b.initiative - a.initiative,
+  );
 
   return (
     <div className="d-flex flex-column flex-grow-1">

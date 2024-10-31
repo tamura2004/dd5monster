@@ -17,6 +17,7 @@ export const Clazz = {
 export type Clazz = (typeof Clazz)[keyof typeof Clazz];
 
 export type Character = {
+  active: boolean;
   id: string;
   name: string;
   level: number;
@@ -29,6 +30,7 @@ export type Character = {
 
 export const Characters: Record<string, Character> = {
   ["岩熊"]: {
+    active: false,
     id: "岩熊",
     name: "ロックベアー",
     level: 4,
@@ -49,6 +51,7 @@ export const Characters: Record<string, Character> = {
     initiative: 6,
   },
   ["灰鼠"]: {
+    active: true,
     id: "灰鼠",
     name: "グレイラット",
     level: 4,
@@ -68,7 +71,29 @@ export const Characters: Record<string, Character> = {
     },
     initiative: 17,
   },
+  ["虎妹"]: {
+    active: true,
+    id: "虎妹",
+    name: "タイガーリリー",
+    level: 4,
+    classLevel: {
+      [Clazz.Bard]: 2,
+      [Clazz.Cleric]: 2,
+    },
+    ac: 18,
+    hp: 36,
+    abilities: {
+      [Ability.STR]: 16,
+      [Ability.DEX]: 14,
+      [Ability.CON]: 14,
+      [Ability.INT]: 10,
+      [Ability.WIS]: 10,
+      [Ability.CHA]: 10,
+    },
+    initiative: 17,
+  },
   ["エマ"]: {
+    active: true,
     id: "エマ",
     name: "エマさん",
     level: 4,
@@ -89,6 +114,7 @@ export const Characters: Record<string, Character> = {
     initiative: 18,
   },
   ["エド"]: {
+    active: true,
     id: "エド",
     name: "先生",
     level: 4,

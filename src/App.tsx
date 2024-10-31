@@ -16,6 +16,7 @@ import { useState } from "react";
 import { useBoard } from "./hooks/useBoard.ts";
 import { BoardData } from "./settings.ts";
 import { EditRoom } from "./components/EditRoom.tsx";
+import {useCharacters} from "./hooks/useCharacters.ts";
 
 function App() {
   const { settings, setLevel, setNumCharacters, setDifficulty, totalExp } =
@@ -23,7 +24,9 @@ function App() {
   const { monster, reRollMonster } = useMonster(totalExp);
   const { units, move, setUnit, deleteUnit, setHitPoint } = useUnits();
   const { board, flipCell } = useBoard(BoardData);
+  const { characters, setCharacter } = useCharacters(Characters);
   const [isMaster, setIsMaster] = useState<boolean>(false);
+  const activeCharacters = Object.values(characters).filter((character) => character.active);
 
   const reRollByPage = {
     [Page.Setting]: () => {
@@ -40,9 +43,14 @@ function App() {
         const id = `m${i + monster.num}`;
         deleteUnit(id);
       });
-      Object.values(Characters).forEach((character) => {
+      Object.values(characters)
+        .forEach((character) => {
         const unit = CharacterUtil.unit(character);
-        setUnit(unit);
+        if (character.active) {
+          setUnit(unit);
+        } else {
+          deleteUnit(unit.id);
+        }
       });
     },
     [Page.HitPoint]: () => {
@@ -79,7 +87,7 @@ function App() {
         )}
         {page === Page.Monster && <MonsterCard monster={monster} />}
         {page === Page.Room && (
-          <Room units={units} move={move} monster={monster} board={board} />
+          <Room units={units} move={move} monster={monster} board={board} characters={activeCharacters} />
         )}
         {page === Page.HitPoint && (
           <HitPoints
