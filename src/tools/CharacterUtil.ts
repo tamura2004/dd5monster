@@ -1,6 +1,7 @@
 import { Character } from "../models/Character.ts";
 import { Unit, UnitType } from "../models/Unit.ts";
 import { BoardData, BoardHeight, BoardWidth } from "../settings.ts";
+import { Ability } from "../models/Ability.ts";
 
 const randomPos = () => {
   while (true) {
@@ -23,6 +24,15 @@ const unit = (character: Character): Unit => {
   };
 };
 
+const rollInitiative = (character: Character) => {
+  return Math.floor(Math.random() * 20) + 1 + dexMod(character);
+};
+
+const dexMod = (character: Character) => {
+  return Math.floor((character.abilities[Ability.DEX] - 10) / 2);
+};
+
 export const CharacterUtil = {
   unit,
+  rollInitiative,
 };

@@ -48,6 +48,16 @@ export const NavBar = ({
                 </a>
               </li>
             )}
+            <li className="nav-item">
+              <a
+                className={
+                  page === Page.Character ? "nav-link active" : "nav-link"
+                }
+                onClick={() => setPage(Page.Character)}
+              >
+                キャラクター
+              </a>
+            </li>
             {isMaster && (
               <li className="nav-item">
                 <a
@@ -100,7 +110,6 @@ export const NavBar = ({
               id="isMaster"
               checked={isMaster}
               onChange={(e) => {
-                console.log(`isMaster: ${e.target.checked}`);
                 setIsMaster(e.target.checked);
               }}
             />

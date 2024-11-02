@@ -9,14 +9,14 @@ import { Room } from "./components/Room.tsx";
 import { range } from "./tools/ArrayUtil.ts";
 import { Page, usePage } from "./hooks/usePage.ts";
 import { MonsterUtil } from "./tools/MonsterUtil.ts";
-import { Characters } from "./models/Character.ts";
 import { CharacterUtil } from "./tools/CharacterUtil.ts";
 import { HitPoints } from "./components/HitPoints.tsx";
 import { useState } from "react";
 import { useBoard } from "./hooks/useBoard.ts";
 import { BoardData } from "./settings.ts";
 import { EditRoom } from "./components/EditRoom.tsx";
-import {useCharacters} from "./hooks/useCharacters.ts";
+import { useCharacters } from "./hooks/useCharacters.ts";
+import { CharacterList } from "./components/CharacterList.tsx";
 
 function App() {
   const { settings, setLevel, setNumCharacters, setDifficulty, totalExp } =
@@ -24,9 +24,11 @@ function App() {
   const { monster, reRollMonster } = useMonster(totalExp);
   const { units, move, setUnit, deleteUnit, setHitPoint } = useUnits();
   const { board, flipCell } = useBoard(BoardData);
-  const { characters } = useCharacters(Characters);
+  const { characters, setCharacter } = useCharacters();
   const [isMaster, setIsMaster] = useState<boolean>(false);
-  const activeCharacters = Object.values(characters).filter((character) => character.active);
+  const activeCharacters = Object.values(characters).filter(
+    (character) => character.active,
+  );
 
   const reRollByPage = {
     [Page.Setting]: () => {
@@ -34,6 +36,7 @@ function App() {
       setPage(Page.Monster);
     },
     [Page.Monster]: reRollMonster,
+    [Page.Character]: () => {},
     [Page.Room]: () => {
       range(monster.num).forEach((i) => {
         const unit = MonsterUtil.unit(monster, i);
@@ -43,8 +46,9 @@ function App() {
         const id = `m${i + monster.num}`;
         deleteUnit(id);
       });
-      Object.values(characters)
-        .forEach((character) => {
+      Object.values(characters).forEach((character) => {
+        const initiative = CharacterUtil.rollInitiative(character);
+        setCharacter({ ...character, initiative });
         const unit = CharacterUtil.unit(character);
         if (character.active) {
           setUnit(unit);
@@ -85,9 +89,18 @@ function App() {
             setDifficulty={setDifficulty}
           />
         )}
+        {page === Page.Character && (
+          <CharacterList characters={characters} setCharacter={setCharacter} />
+        )}
         {page === Page.Monster && <MonsterCard monster={monster} />}
         {page === Page.Room && (
-          <Room units={units} move={move} monster={monster} board={board} characters={activeCharacters} />
+          <Room
+            units={units}
+            move={move}
+            monster={monster}
+            board={board}
+            characters={activeCharacters}
+          />
         )}
         {page === Page.HitPoint && (
           <HitPoints

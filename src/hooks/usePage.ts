@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 
 export const Page = {
   Setting: "Setting",
+  Character: "Character",
   Monster: "Monster",
   Room: "Room",
   HitPoint: "HitPoint",

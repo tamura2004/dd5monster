@@ -18,11 +18,11 @@ export const COMMON_OOZE_TEMPLATES = [
   {
     ...commonOozeTemplates,
     name: "オーカーズ・ジェリー",
-    enhancer: seq(eh("腐敗性触手"), eh("分裂")),
+    enhancer: seq(eh("腐敗性触手")),
   },
   {
     ...commonOozeTemplates,
     name: "ブラックプディング",
-    enhancer: seq(eh("腐敗性触手"), eh("分裂")),
+    enhancer: seq(eh("腐敗性触手")),
   },
 ];
