@@ -5,17 +5,17 @@ type Props = {
   x: number;
   y: number;
   id: string;
+  backgroundColor: string;
 };
 
-export const Cell = ({ x, y, id }: Props) => {
+export const Cell = ({ x, y, id, backgroundColor }: Props) => {
   const { setNodeRef, isOver } = useDroppable({ id, data: { x, y } });
-  const backgroundColor = isOver ? "lightgreen" : "white";
   return (
     <CellStyle
       ref={setNodeRef}
       x={x}
       y={y}
-      $backgroundColor={backgroundColor}
+      $backgroundColor={isOver ? "lightgreen" : backgroundColor}
     />
   );
 };

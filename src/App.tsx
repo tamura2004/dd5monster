@@ -90,9 +90,9 @@ function App() {
           />
         )}
         {page === Page.Character && (
-          <CharacterList characters={characters} setCharacter={setCharacter}/>
+          <CharacterList characters={characters} setCharacter={setCharacter} />
         )}
-        {page === Page.Monster && <MonsterCard monster={monster}/>}
+        {page === Page.Monster && <MonsterCard monster={monster} />}
         {page === Page.Room && (
           <Room
             units={units}
@@ -109,23 +109,31 @@ function App() {
             monster={monster}
           />
         )}
-        <select
-          value={tile}
-          className="form-select form-select-lg w-25 m-2"
-          onChange={(e) => setTile(e.target.value)}
-        >
-          <option key={"wall"} value={"#"}>
-            壁
-          </option>
-          <option key={"water"} value={"W"}>
-            水場
-          </option>
-          <option key={"secret"} value={"S"}>
-            謎
-          </option>
-        </select>
         {page === Page.EditRoom && (
-          <EditRoom board={board} flipCell={flipCell}/>
+          <select
+            value={tile}
+            className="form-select form-select-lg w-25 m-2"
+            onChange={(e) => setTile(e.target.value)}
+          >
+            <option key={"wall"} value={"#"}>
+              壁
+            </option>
+            <option key={"water"} value={"W"}>
+              水場
+            </option>
+            <option key={"secret"} value={"S"}>
+              魔法陣
+            </option>
+            <option key={"bush"} value={"B"}>
+              草むら
+            </option>
+            <option key={"poison"} value={"P"}>
+              毒沼
+            </option>
+          </select>
+        )}
+        {page === Page.EditRoom && (
+          <EditRoom board={board} flipCell={flipCell} />
         )}
       </div>
     </>

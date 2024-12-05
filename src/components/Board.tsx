@@ -28,8 +28,14 @@ export const Board = ({ move, units, board }: Props) => {
       >
         {range(BoardHeight).map((y) =>
           range(BoardWidth).map((x) =>
-            board[y][x] === "." ? (
-              <Cell key={`${x}-${y}`} id={`${x}-${y}`} x={x} y={y} />
+            board[y][x] !== "#" ? (
+              <Cell
+                key={`${x}-${y}`}
+                id={`${x}-${y}`}
+                x={x}
+                y={y}
+                backgroundColor={TileColor[board[y][x]] ?? "white"}
+              />
             ) : (
               <CellStyle
                 key={`${x}-${y}`}
