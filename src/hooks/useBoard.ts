@@ -5,7 +5,7 @@ import { Tile } from "../models/TileColor.ts";
 
 export const useBoard = (boardData: string[]) => {
   const [board, setBoard] = useState(boardData);
-  const [tile, setTile] = useState<Tile>(Tile.Empty);
+  const [tile, setTile] = useState<string>(".");
 
   useEffect(() => {
     onSnapshot(doc(db, "board", "board"), (doc) => {
