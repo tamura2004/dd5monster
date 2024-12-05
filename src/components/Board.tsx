@@ -6,6 +6,7 @@ import { range } from "../tools/ArrayUtil.ts";
 import { Unit, UnitType } from "../models/Unit.ts";
 import { Piece } from "./Piece.tsx";
 import { CellStyle } from "../styles/CellStyle.tsx";
+import { TileColor } from "../models/TileColor.ts";
 
 type Props = {
   move: (id: string, x: number, y: number) => void;
@@ -34,7 +35,7 @@ export const Board = ({ move, units, board }: Props) => {
                 key={`${x}-${y}`}
                 x={x}
                 y={y}
-                $backgroundColor="black"
+                $backgroundColor={TileColor[board[y][x]] ?? "white"}
               />
             ),
           ),

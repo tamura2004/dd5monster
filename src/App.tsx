@@ -23,7 +23,7 @@ function App() {
     useSettings(initialSettings);
   const { monster, reRollMonster } = useMonster(totalExp);
   const { units, move, setUnit, deleteUnit, setHitPoint } = useUnits();
-  const { board, flipCell } = useBoard(BoardData);
+  const { board, flipCell, tile, setTile } = useBoard(BoardData);
   const { characters, setCharacter } = useCharacters();
   const [isMaster, setIsMaster] = useState<boolean>(false);
   const activeCharacters = Object.values(characters).filter(
@@ -90,9 +90,9 @@ function App() {
           />
         )}
         {page === Page.Character && (
-          <CharacterList characters={characters} setCharacter={setCharacter} />
+          <CharacterList characters={characters} setCharacter={setCharacter}/>
         )}
-        {page === Page.Monster && <MonsterCard monster={monster} />}
+        {page === Page.Monster && <MonsterCard monster={monster}/>}
         {page === Page.Room && (
           <Room
             units={units}
@@ -109,8 +109,23 @@ function App() {
             monster={monster}
           />
         )}
+        <select
+          value={tile}
+          className="form-select form-select-lg w-25 m-2"
+          onChange={(e) => setTile(e.target.value)}
+        >
+          <option key={"wall"} value={"#"}>
+            壁
+          </option>
+          <option key={"water"} value={"W"}>
+            水場
+          </option>
+          <option key={"secret"} value={"S"}>
+            謎
+          </option>
+        </select>
         {page === Page.EditRoom && (
-          <EditRoom board={board} flipCell={flipCell} />
+          <EditRoom board={board} flipCell={flipCell}/>
         )}
       </div>
     </>

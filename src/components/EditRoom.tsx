@@ -2,6 +2,7 @@ import { range } from "../tools/ArrayUtil.ts";
 import { BoardHeight, BoardWidth } from "../settings.ts";
 import { CellStyle } from "../styles/CellStyle.tsx";
 import { BoardStyle } from "./Board.tsx";
+import { TileColor } from "../models/TileColor.ts";
 
 type Props = {
   board: string[];
@@ -17,7 +18,7 @@ export const EditRoom = ({ board, flipCell }: Props) => {
             key={`${x}-${y}`}
             x={x}
             y={y}
-            $backgroundColor={board[y][x] === "#" ? "black" : "white"}
+            $backgroundColor={TileColor[board[y][x]] ?? "white"}
             onClick={() => flipCell(x, y)}
           />
         )),
